@@ -56,9 +56,6 @@ public class CrudFuncionarioService {
 			case 4:
 				deletar(scan);
 				break;
-			case 0:
-				system = false;
-				break;
 			default:
 				system = false;
 				break;
