@@ -1,6 +1,7 @@
 package br.com.alura.springdata.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ import br.com.alura.springdata.repository.UnidadeTrabalhoRepository;
 public class CrudFuncionarioService {
 	
 	private Boolean system = true;
-	
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private final FuncionarioRepository funcionarioRepository;
 	
 	private final UnidadeTrabalhoRepository unidadeRepository;
@@ -51,7 +52,7 @@ public class CrudFuncionarioService {
 				atualizar(scan);
 				break;
 			case 3:
-				visualizar();
+				visualizar(scan);
 				break;
 			case 4:
 				deletar(scan);
@@ -86,7 +87,7 @@ public class CrudFuncionarioService {
 		funcionario.setNome(nome);
 		funcionario.setCpf(cpf);
 		funcionario.setSalario(salario);
-		funcionario.setDataContratacao(LocalDate.parse(dataContratacao));
+		funcionario.setDataContratacao(LocalDate.parse(dataContratacao, formatter));
 		Optional<Cargo> cargo = cargoRepository.findById(cargo_id);
 		funcionario.setCargo(cargo.get());
 		funcionario.setUnidadeTrabalhos(unidades);
@@ -147,7 +148,10 @@ public class CrudFuncionarioService {
 		System.out.println("Atualizado");
 	}
 	
-	private void visualizar() {
+	private void visualizar(Scanner scan) {
+		System.out.println("Qual página voce deseja visualizar ");
+		Integer page = scan.nextInt();	
+		
 	 Iterable<Funcionario> funcionarios	= funcionarioRepository.findAll();
 	 funcionarios.forEach(funcionario -> System.out.println(funcionario));
 	 
